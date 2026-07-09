@@ -14,6 +14,9 @@ export const DEFAULT_PERSON = {
   conditions: ['None'],
   allergies: '',
   goal: '',
+  supportArea: '',   // onboarding: PCOS area they want help with
+  confidence: '',    // onboarding: how they feel navigating advice
+  infoSource: '',    // onboarding: where they usually get info
 };
 
 // Onboarding (Name → Quiz) runs once; the flag lets returning users land

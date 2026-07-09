@@ -6,18 +6,21 @@ const HIGHLIGHTS = [
   {
     tag: 'NHS',
     title: 'PCOS: symptoms, causes & how it’s diagnosed',
+    summary: 'A plain-English overview of what PCOS (PMOS) is, the common signs, and how it’s diagnosed.',
     href: 'https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/',
     variant: 'card--lavender',
   },
   {
     tag: 'ZOE',
     title: 'How the food you eat shapes insulin & PCOS',
+    summary: 'Why blood sugar and insulin matter for PCOS, and small food swaps that can help.',
     href: 'https://zoe.com/learn',
     variant: 'card--coral',
   },
   {
     tag: 'Verity',
     title: 'Support & community for living with PCOS',
+    summary: 'The UK charity for PCOS (PMOS) — real stories, support groups and evidence-based guidance.',
     href: 'https://www.verity-pcos.org.uk/',
     variant: 'card--lavender',
   },
@@ -37,6 +40,7 @@ export default function Home({
   onOpenHistoryItem,
   onViewHistory,
   onEditProfile,
+  onViewSources,
 }) {
   const name = person?.name?.trim();
   const initial = (name || 'Z').charAt(0).toUpperCase();
@@ -87,7 +91,7 @@ export default function Home({
           </div>
           {recent.length === 0 ? (
             <p className="saved-empty">
-              Nothing yet — your checked claims will be saved here on this device.
+              Nothing yet! Your checked claims will be saved here on this device.
             </p>
           ) : (
             <div className="saved-list">
@@ -118,11 +122,20 @@ export default function Home({
               <div>
                 <div className="highlight-tag">{h.tag}</div>
                 <div className="highlight-title">{h.title}</div>
+                {h.summary && <div className="highlight-summary">{h.summary}</div>}
               </div>
               <div className="highlight-cta">Read more →</div>
             </a>
           ))}
         </div>
+
+        <button
+          className="secondary-btn"
+          style={{ width: '100%', marginTop: 16 }}
+          onClick={onViewSources}
+        >
+          Explore trusted sources →
+        </button>
 
         <h2 className="section-title" style={{ marginTop: 30 }}>How you can help</h2>
         <a
@@ -136,7 +149,7 @@ export default function Home({
           <div className="contribute-text">
             <div className="contribute-title">Contribute to research</div>
             <div className="contribute-sub">
-              Help science understand PCOS better — take part in studies via Verity.
+              Help science understand PCOS better! Take part in studies via Verity.
             </div>
           </div>
           <span className="contribute-arrow">↗</span>

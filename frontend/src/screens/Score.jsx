@@ -45,7 +45,7 @@ export default function Score({ result, error, onSuggestions, onCheckAnother, on
             </h3>
             <p className="advice-body" style={{ color: 'var(--muted)' }}>
               We couldn’t pin down a specific health claim to check. Try a clearer
-              statement like “Spearmint tea cures PCOS”.
+              statement like “Spearmint tea cures PMOS”.
             </p>
           </div>
           <button className="primary-btn primary-btn--block" onClick={onCheckAnother}>

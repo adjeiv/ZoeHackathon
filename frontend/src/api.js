@@ -11,6 +11,9 @@ export function profileFromPerson(person) {
   if (person.diet && person.diet !== 'None') parts.push(person.diet.toLowerCase());
   if (person.allergies) parts.push(`allergies/intolerances: ${person.allergies}`);
   if (person.goal) parts.push(`goal: ${person.goal.toLowerCase()}`);
+  if (person.supportArea) parts.push(`wants support with ${person.supportArea}`);
+  if (person.confidence) parts.push(person.confidence);
+  if (person.infoSource) parts.push(person.infoSource);
   return parts.join(', ');
 }
 

@@ -8,6 +8,7 @@ import Score from './screens/Score.jsx';
 import Suggestions from './screens/Suggestions.jsx';
 import Profile from './screens/Profile.jsx';
 import History from './screens/History.jsx';
+import Sources from './screens/Sources.jsx';
 import { checkClaim } from './api.js';
 import {
   loadPerson,
@@ -102,6 +103,7 @@ export default function App() {
           onOpenHistoryItem={openHistoryItem}
           onViewHistory={() => setScreen('history')}
           onEditProfile={() => setScreen('profile')}
+          onViewSources={() => setScreen('sources')}
         />
       )}
       {screen === 'input' && <Input onCheck={runCheck} onBack={goHome} />}
@@ -129,6 +131,7 @@ export default function App() {
           onClear={handleClearHistory}
         />
       )}
+      {screen === 'sources' && <Sources onBack={goHome} />}
     </>
   );
 }

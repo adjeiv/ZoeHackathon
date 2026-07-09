@@ -107,7 +107,7 @@ export default function Input({ onCheck, onBack }) {
               rows={1}
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="e.g. Spearmint tea cures PCOS…"
+              placeholder="e.g. Spearmint tea cures PMOS…"
             />
           </div>
 

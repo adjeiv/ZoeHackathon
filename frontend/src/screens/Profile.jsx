@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 const SEX = ['Female', 'Male', 'Other'];
 const DIET = ['None', 'Balanced', 'Plant-based', 'Low-carb', 'Vegetarian', 'Vegan'];
-const CONDITIONS = ['None', 'PCOS', 'Insulin resistance', 'Thyroid issue', 'IBS', 'Pregnant'];
-const GOALS = ['General wellbeing', 'Manage PCOS symptoms', 'Understand my body', 'Lose weight'];
+const CONDITIONS = ['None', 'MCOS', 'Insulin resistance', 'Thyroid issue', 'IBS', 'Pregnant'];
+const GOALS = ['General wellbeing', 'Manage PMOS symptoms', 'Understand my body', 'Lose weight'];
 
 function Chip({ label, selected, onClick }) {
   return (
@@ -26,7 +26,7 @@ export default function Profile({ person, onBack, onSave }) {
   // also matches the "PCOS (suspected)" value the onboarding quiz can seed.
   const condSelected = (opt) => {
     const c = form.conditions || [];
-    if (opt === 'PCOS') return c.some((x) => x.startsWith('PCOS'));
+    if (opt === 'PMOS') return c.some((x) => x.startsWith('PMOS'));
     return c.includes(opt);
   };
 
@@ -39,7 +39,7 @@ export default function Profile({ person, onBack, onSave }) {
       if (opt === 'None') {
         c = ['None'];
       } else if (condSelected(opt)) {
-        c = c.filter((x) => (opt === 'PCOS' ? !x.startsWith('PCOS') : x !== opt));
+        c = c.filter((x) => (opt === 'PMOS' ? !x.startsWith('PMOS') : x !== opt));
       } else {
         c = [...c.filter((x) => x !== 'None'), opt];
       }
@@ -68,7 +68,7 @@ export default function Profile({ person, onBack, onSave }) {
         </div>
 
         <p className="screen-sub" style={{ textAlign: 'center' }}>
-          This tailors how Zoe explains results. It stays on your device — never medical advice.
+          This tailors how Zoe explains results. It stays on your device, and is never for medical advice.
         </p>
 
         <div className="privacy-note">
@@ -99,7 +99,7 @@ export default function Profile({ person, onBack, onSave }) {
               placeholder="e.g. 34"
             />
           </div>
-          
+
           <div>
             <div className="field-label">Dietary pattern</div>
             <div className="chip-group">
