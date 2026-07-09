@@ -7,6 +7,7 @@ single-verdict shape the redesigned Results screen expects.
 Run:  uv run uvicorn backend.api:app --reload --port 8000
 """
 import os
+import re
 import sys
 
 from dotenv import load_dotenv
@@ -63,6 +64,24 @@ DEFAULT_SOURCE = {"name": "", "tag": "REFERENCE", "icon": "📄"}
 
 # Priority when choosing which claim leads the verdict card.
 STATUS_PRIORITY = {"Contradicted": 0, "Supported": 1, "Unclear": 2, "Not addressed": 3}
+
+# This product renames polycystic ovary syndrome to "PMOS". The prose prompts are
+# already told to use it, but the model tends to "correct" the invented term back
+# to PCOS — so we rename the generated text deterministically as a backstop.
+# Applied only to model-written prose, never to cited source titles/URLs.
+_PCOS_RE = re.compile(
+    r"polycystic ovar(?:y|ian) syndrome\s*\(pcos\)"
+    r"|polycystic ovar(?:y|ian) syndrome"
+    r"|\bpcos\b",
+    re.IGNORECASE,
+)
+
+
+def _pmos(text):
+    """Rename PCOS / polycystic ovary syndrome → PMOS in a generated string."""
+    if not text:
+        return text
+    return _PCOS_RE.sub("PMOS", text)
 
 _store = None
 
@@ -160,17 +179,26 @@ def check_claim(transcript, conditions=None, profile=None):
         if n and n.get("relevance") in {"relevant", "important", "caution"}:
             person_note = {"relevance": n["relevance"], "note": n["note"]}
 
+    # Rename PCOS → PMOS in everything the model wrote (claim, verdict prose,
+    # summary, bullets, FAQ Q&As, personal note). Cited source rows are left
+    # untouched — they're real document titles/links.
+    for faq in faqs:
+        faq["q"] = _pmos(faq.get("q"))
+        faq["a"] = _pmos(faq.get("a"))
+    if person_note:
+        person_note["note"] = _pmos(person_note.get("note"))
+
     return {
         "empty": False,
-        "claim": claims[primary_i]["text"],
+        "claim": _pmos(claims[primary_i]["text"]),
         "transcript": transcript,
         "tag": meta["tag"],
         "verdict": meta["verdict"],
         "verdictColor": meta["color"],
         "truthScore": meta["truth"],
         "confidence": CONF_NUM.get(primary.get("confidence", "low"), 60),
-        "summary": summary,
-        "points": points[:4],
+        "summary": _pmos(summary),
+        "points": [_pmos(p) for p in points[:4]],
         "sources": sources,
         "faqs": faqs,
         "personalNote": person_note,

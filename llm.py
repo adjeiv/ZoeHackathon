@@ -14,6 +14,17 @@ def _client():
     return anthropic.Anthropic()
 
 
+# This product refers to polycystic ovary syndrome by the name "PMOS". Any prose
+# the model writes for the user should use that name. (Retrieval/claim-extraction
+# deliberately keep real medical terms so embedding search still matches the
+# PCOS-worded knowledge base; api.py also renames the final output as a backstop.)
+PMOS_NAMING = (
+    " NAMING: In this product, polycystic ovary syndrome is called \"PMOS\". "
+    "Whenever you refer to the condition in text you write for the user, always "
+    "use \"PMOS\" — never \"PCOS\" or \"polycystic ovary syndrome\"."
+)
+
+
 def _first_text(resp):
     return next(b.text for b in resp.content if getattr(b, "type", None) == "text")
 
@@ -184,7 +195,7 @@ VERDICT_SYSTEM = (
     "- 'Unclear': evidence is mixed, partial, or ambiguous.\n"
     "Never use outside knowledge as if it were sourced. Cite the evidence you relied "
     "on using its [id]. Keep explanations to 1-3 sentences, plain and non-alarmist. "
-    "Set citation_ids to [] when status is 'Not addressed'."
+    "Set citation_ids to [] when status is 'Not addressed'." + PMOS_NAMING
 )
 
 
@@ -262,7 +273,7 @@ PERSONALIZE_SYSTEM = (
     "You are given their ORIGINAL INPUT. If it is first-person or about their own "
     "situation (e.g. 'I', 'my', 'me', 'should I…', 'is it safe for me'), assess "
     "relevance normally. If it is a general or third-person statement not about the "
-    "user personally, return 'not_relevant' for every claim."
+    "user personally, return 'not_relevant' for every claim." + PMOS_NAMING
 )
 
 
@@ -293,7 +304,7 @@ SUGGESTIONS_SYSTEM = (
     "general audience that sums up what to take away, and up to 3 short FAQ Q&As a "
     "curious person might ask next (1-2 sentence answers). This is general "
     "information, not personal medical advice — where relevant, suggest speaking to "
-    "a GP or pharmacist. Do not tell anyone to start or stop a specific treatment."
+    "a GP or pharmacist. Do not tell anyone to start or stop a specific treatment." + PMOS_NAMING
 )
 
 

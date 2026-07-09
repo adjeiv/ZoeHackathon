@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const SEX = ['Female', 'Male', 'Other'];
 const DIET = ['None', 'Balanced', 'Plant-based', 'Low-carb', 'Vegetarian', 'Vegan'];
-const CONDITIONS = ['None', 'MCOS', 'Insulin resistance', 'Thyroid issue', 'IBS', 'Pregnant'];
+const CONDITIONS = ['None', 'PMOS', 'Insulin resistance', 'Thyroid issue', 'IBS', 'Pregnant'];
 const GOALS = ['General wellbeing', 'Manage PMOS symptoms', 'Understand my body', 'Lose weight'];
 
 function Chip({ label, selected, onClick }) {
@@ -22,8 +22,8 @@ export default function Profile({ person, onBack, onSave }) {
     setSaved(false);
   };
 
-  // A condition chip counts as selected on an exact match, and the PCOS chip
-  // also matches the "PCOS (suspected)" value the onboarding quiz can seed.
+  // A condition chip counts as selected on an exact match, and the PMOS chip
+  // also matches the "PMOS (suspected)" value the onboarding quiz can seed.
   const condSelected = (opt) => {
     const c = form.conditions || [];
     if (opt === 'PMOS') return c.some((x) => x.startsWith('PMOS'));
@@ -68,7 +68,7 @@ export default function Profile({ person, onBack, onSave }) {
         </div>
 
         <p className="screen-sub" style={{ textAlign: 'center' }}>
-          This tailors how Zoe explains results. It stays on your device, and is never for medical advice.
+          This tailors how Paloma explains results. It stays on your device, and is never for medical advice.
         </p>
 
         <div className="privacy-note">

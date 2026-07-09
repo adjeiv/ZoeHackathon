@@ -35,7 +35,7 @@ function Faq({ faq }) {
 
 // The deeper-dive screen reached from Score: a plain-language advice summary,
 // a short list of trusted sources to read next, and the follow-up questions
-// people ask about PCOS.
+// people ask about PMOS.
 export default function Suggestions({ result, onBack, onDone }) {
   const { summary, faqs = [] } = result || {};
 

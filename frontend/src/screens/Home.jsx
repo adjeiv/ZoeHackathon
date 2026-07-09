@@ -1,26 +1,26 @@
 import Mascot from '../components/Mascot.jsx';
 
-// Curated PCOS reading, drawn from the app's trusted-source list. Tapping one
+// Curated PMOS reading, drawn from the app's trusted-source list. Tapping one
 // opens the source in a new tab.
 const HIGHLIGHTS = [
   {
     tag: 'NHS',
-    title: 'PCOS: symptoms, causes & how it’s diagnosed',
-    summary: 'A plain-English overview of what PCOS (PMOS) is, the common signs, and how it’s diagnosed.',
+    title: 'PMOS: symptoms, causes & how it’s diagnosed',
+    summary: 'A plain-English overview of what PMOS is, the common signs, and how it’s diagnosed.',
     href: 'https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/',
     variant: 'card--lavender',
   },
   {
     tag: 'ZOE',
-    title: 'How the food you eat shapes insulin & PCOS',
-    summary: 'Why blood sugar and insulin matter for PCOS, and small food swaps that can help.',
+    title: 'How the food you eat shapes insulin & PMOS',
+    summary: 'Why blood sugar and insulin matter for PMOS, and small food swaps that can help.',
     href: 'https://zoe.com/learn',
     variant: 'card--coral',
   },
   {
     tag: 'Verity',
-    title: 'Support & community for living with PCOS',
-    summary: 'The UK charity for PCOS (PMOS) — real stories, support groups and evidence-based guidance.',
+    title: 'Support & community for living with PMOS',
+    summary: 'The UK charity for PMOS — real stories, support groups and evidence-based guidance.',
     href: 'https://www.verity-pcos.org.uk/',
     variant: 'card--lavender',
   },
@@ -149,7 +149,7 @@ export default function Home({
           <div className="contribute-text">
             <div className="contribute-title">Contribute to research</div>
             <div className="contribute-sub">
-              Help science understand PCOS better! Take part in studies via Verity.
+              Help science understand PMOS better! Take part in studies via Verity.
             </div>
           </div>
           <span className="contribute-arrow">↗</span>
