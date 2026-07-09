@@ -53,6 +53,10 @@ Association for Nutrition (AfN)
 Search the register and check if someone is a registered nutritionist 
 https://www.associationfornutrition.org/register/search-the-register
 
+MONASH University
+PMOS Guideline and Resources
+https://www.monash.edu/medicine/mchri/pcos
+
 
 
 
