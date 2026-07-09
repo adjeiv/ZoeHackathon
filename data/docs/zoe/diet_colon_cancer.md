@@ -10,10 +10,6 @@ If you’d like to read more about the steady increase in early-onset cancer in 
 The team's first study was published in JAMA Oncology in November 2025. Here, we explain what they found.
 
 
-The crunch your gut’s* been craving.
-Support gut health* and energy* and enhance the flavor and crunch of your meals.
-
-Try Daily30
 Ultraprocessed food and colon cancer
 The latest study investigated links between the consumption of ultra-processed foods (UPFs) and the precursors of early-age onset colorectal cancer. 
 

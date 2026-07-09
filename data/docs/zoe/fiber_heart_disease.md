@@ -19,10 +19,6 @@ In return, our grateful microbes produce healthy bioactive compounds as they fer
 In this article, we’ll focus specifically on the fascinating links between consuming fiber and heart health. If you’d like more general information on fiber’s health benefits, try this article.
 
 
-We don't buy the hype — and neither should you
-Our new app reveals what the food labels won't, using data from the world's largest nutrition study run by ZOE.
-
-Download
 Fiber and heart health: The evidence
 Heart disease has been the number one killer in the UK and the US for more than 100 years. 
 
@@ -77,11 +73,6 @@ The authors of a review explain that, alongside standard medical treatment, incr
 
 They also suggest that a higher fiber intake will reduce their risk of premature death from cardiovascular disease.
 
-
-Our new app gives you the power to see beyond the marketing
-Make smarter, science-backed food choices in seconds. Scan. Score. Reveal the truth.
-
-Download
 What should you do?
 Taken together, the evidence shows that if you want to protect your heart, upping your fiber intake is a great start. 
 

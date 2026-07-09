@@ -15,6 +15,9 @@ dependencies = [
     "python-dotenv>=1.0",
     "requests>=2.31",
     "torchvision>=0.27.1",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "python-multipart>=0.0.9",
 ]
 
 [tool.uv]

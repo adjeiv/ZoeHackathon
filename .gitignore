@@ -3,4 +3,5 @@ __pycache__/
 *.pyc
 .env
 data/index/
+data/history.json
 .DS_Store

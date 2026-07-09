@@ -58,7 +58,7 @@ This uses heat or laser to remove tissue on your ovaries and may help release mo
 Things you can do to help polyendocrine metabolic ovarian syndrome (PMOS)
 If you have polyendocrine metabolic ovarian syndrome (PMOS), there are things you can do to help your symptoms.
 
-Do
+Do:
 eat a healthy, balanced diet
 
 exercise regularly – but avoid high intensity exercise because it can make PMOS symptoms worse

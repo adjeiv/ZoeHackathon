@@ -1,4 +1,5 @@
 """Claude-powered claim extraction and evidence-grounded verdicts."""
+import base64
 import json
 from functools import lru_cache
 
@@ -51,6 +52,49 @@ def _structured(system, user, schema, max_tokens=3000):
             messages=[{"role": "user", "content": user}],
         )
         return _loads(_first_text(resp))
+
+
+# --- OCR (screenshot -> text via Claude vision) -----------------------------
+
+OCR_SYSTEM = (
+    "You transcribe text from an image, usually a social-media screenshot. "
+    "Output ONLY the readable text you see, as plain prose — include caption, "
+    "overlay, and on-image text; preserve sentences and reading order. Do not "
+    "describe the image, add commentary, or invent text. If there is no legible "
+    "text, output nothing."
+)
+
+# Media types Claude accepts for image input.
+_OK_IMAGE_TYPES = {"image/jpeg", "image/png", "image/gif", "image/webp"}
+
+
+def ocr_image(image_bytes, media_type="image/png"):
+    """Transcribe the text in an image using Claude vision. Returns a string."""
+    if media_type not in _OK_IMAGE_TYPES:
+        media_type = "image/png"
+    b64 = base64.standard_b64encode(image_bytes).decode()
+    resp = _client().messages.create(
+        model=config.CLAUDE_MODEL,
+        max_tokens=1500,
+        system=OCR_SYSTEM,
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": media_type,
+                            "data": b64,
+                        },
+                    },
+                    {"type": "text", "text": "Transcribe all text in this image."},
+                ],
+            }
+        ],
+    )
+    return _first_text(resp).strip()
 
 
 # --- Claim extraction -------------------------------------------------------
@@ -169,3 +213,122 @@ def judge_claims(claims_with_evidence):
     block, id_map = _build_evidence_block(claims_with_evidence)
     data = _structured(VERDICT_SYSTEM, block, VERDICT_SCHEMA, max_tokens=4000)
     return data.get("verdicts", []), id_map
+
+
+# --- Personalisation (opt-in) ----------------------------------------------
+
+PERSONALIZE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "notes": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "claim_index": {"type": "integer"},
+                    "relevance": {
+                        "type": "string",
+                        "enum": ["not_relevant", "relevant", "important", "caution"],
+                    },
+                    "conditions": {"type": "array", "items": {"type": "string"}},
+                    "note": {"type": "string"},
+                },
+                "required": ["claim_index", "relevance", "conditions", "note"],
+                "additionalProperties": False,
+            },
+        }
+    },
+    "required": ["notes"],
+    "additionalProperties": False,
+}
+
+PERSONALIZE_SYSTEM = (
+    "You help a user understand whether a health claim matters specifically for "
+    "THEM, given what they've told you about themselves (pre-existing conditions "
+    "and/or a free-text profile). You are given each claim, our fact-check verdict, "
+    "and the user's details.\n"
+    "For each claim, rate how it bears on the user:\n"
+    "- 'not_relevant': no special bearing on their conditions.\n"
+    "- 'relevant': worth being aware of given a condition.\n"
+    "- 'important': notably affects management of a condition.\n"
+    "- 'caution': acting on this (especially if the claim is false/contradicted) "
+    "could be harmful for someone with their condition — advise checking a clinician.\n"
+    "Consider that a FALSE claim can be dangerous if believed (e.g. 'you can stop "
+    "insulin' for a diabetic). List the specific condition(s) each note applies to. "
+    "Keep notes to 1-2 sentences, calm and non-alarmist. This is general information, "
+    "not personal medical advice — never tell the user to start/stop a specific "
+    "treatment; point them to a professional for anything in 'caution'.\n"
+    "IMPORTANT — only personalise when the user is actually talking about THEMSELVES. "
+    "You are given their ORIGINAL INPUT. If it is first-person or about their own "
+    "situation (e.g. 'I', 'my', 'me', 'should I…', 'is it safe for me'), assess "
+    "relevance normally. If it is a general or third-person statement not about the "
+    "user personally, return 'not_relevant' for every claim."
+)
+
+
+SUGGESTIONS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "summary": {"type": "string"},
+        "faqs": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "q": {"type": "string"},
+                    "a": {"type": "string"},
+                },
+                "required": ["q", "a"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    "required": ["summary", "faqs"],
+    "additionalProperties": False,
+}
+
+SUGGESTIONS_SYSTEM = (
+    "You are given health claims that have been fact-checked, with verdicts. "
+    "Write a brief, friendly, non-alarmist 'advice summary' (2-4 sentences) for a "
+    "general audience that sums up what to take away, and up to 3 short FAQ Q&As a "
+    "curious person might ask next (1-2 sentence answers). This is general "
+    "information, not personal medical advice — where relevant, suggest speaking to "
+    "a GP or pharmacist. Do not tell anyone to start or stop a specific treatment."
+)
+
+
+def suggestions(claims, verdicts_by_index, conditions=None):
+    """Return {'summary': str, 'faqs': [{'q','a'}]} for the suggestions screen."""
+    lines = []
+    if conditions:
+        lines.append(f"USER CONDITIONS: {', '.join(conditions)}")
+    for i, c in enumerate(claims):
+        status = verdicts_by_index.get(i, {}).get("status", "Unclear")
+        lines.append(f'- ({status}) "{c["text"]}"')
+    data = _structured(SUGGESTIONS_SYSTEM, "\n".join(lines), SUGGESTIONS_SCHEMA, max_tokens=1500)
+    return {"summary": data.get("summary", ""), "faqs": data.get("faqs", [])}
+
+
+def personalize(claims, verdicts_by_index, conditions, profile=None, transcript=None):
+    """Return {claim_index: note_dict} keyed by claim index.
+
+    conditions: list of user condition strings (may be empty).
+    profile: optional free-text description the user wrote about themselves.
+    transcript: the user's original input — the model uses it to decide whether
+    the user is talking about themselves (first-person) before personalising.
+    """
+    if not conditions and not profile:
+        return {}
+    lines = []
+    if conditions:
+        lines.append(f"USER CONDITIONS: {', '.join(conditions)}")
+    if profile:
+        lines.append(f"ABOUT THE USER: {profile}")
+    if transcript:
+        lines.append(f'ORIGINAL INPUT: "{transcript}"')
+    lines.append("")
+    for i, c in enumerate(claims):
+        status = verdicts_by_index.get(i, {}).get("status", "Unclear")
+        lines.append(f'CLAIM {i} (verdict: {status}): "{c["text"]}"')
+    data = _structured(PERSONALIZE_SYSTEM, "\n".join(lines), PERSONALIZE_SCHEMA, max_tokens=2500)
+    return {n["claim_index"]: n for n in data.get("notes", [])}

@@ -50,21 +50,17 @@ meal
 • Remember low GI does not necessarily mean healthy (e.g. chocolate cake–
 may have a low GI)
 • When planning a meal chose lower GI alternatives from the list below
-Medium GI (56-69) Wholemeal, muffin,
-crumpet, malt, pita
-bread
+
+Medium GI (56-69)
+Wholemeal, muffin, crumpet, malt, pita bread
+
 High GI (70+)
-Bagel, baguette, white
-bread
-Low GI (55 or less) Breads Rye, Burgen,
-granary, multigrain
-Cereal Porridge, special K,
-all bran
-Shredded wheat Rice Krispies, corn
-flakes, sugary cereal
-e.g. coco pops,
-Grains and
-pasta
+Bagel, baguette, white bread
+
+Low GI (55 or less)
+Breads" Rye, Burgen, granary, multigrain
+Cereal Porridge, special K, all bran Shredded wheat Rice Krispies, corn flakes, sugary cereal e.g. coco pops,
+Grains and pasta
 Pasta, buckwheat,
 bulgar wheat
 Basmati, couscous,
@@ -95,6 +91,7 @@ Lentils, beans, e.g.
 baked, kidney,
 Semolina Popcorn, broad beans
 Vegetables Peas, carrots Beetroot, corn Parnsips, turnips
+
 Example menu
 Breakfast • Low fat yogurt with a bran cereal and slices of banana
 • Poached egg on rye toast and low fat spread with grilled tomatoes

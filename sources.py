@@ -42,6 +42,19 @@ SOURCES = {
         "https://www.nhs.uk/live-well/eat-well/food-types/starchy-foods-and-carbohydrates/",
         "https://www.nhs.uk/live-well/eat-well/digestive-health/good-foods-to-help-your-digestion/",
         "https://www.nhs.uk/conditions/vitamins-and-minerals/vitamin-c/",
+        # Pre-existing conditions (used by the personalisation feature).
+        "https://www.nhs.uk/conditions/type-2-diabetes/food-and-keeping-active/",
+        "https://www.nhs.uk/conditions/type-1-diabetes/managing-blood-glucose-levels/",
+        "https://www.nhs.uk/conditions/high-blood-pressure-hypertension/",
+        "https://www.nhs.uk/conditions/high-cholesterol/how-to-lower-your-cholesterol/",
+        "https://www.nhs.uk/conditions/coronary-heart-disease/",
+        "https://www.nhs.uk/conditions/kidney-disease/",
+        "https://www.nhs.uk/conditions/coeliac-disease/",
+        "https://www.nhs.uk/conditions/irritable-bowel-syndrome-ibs/diet-lifestyle-and-medicines/",
+        "https://www.nhs.uk/conditions/food-allergy/",
+        "https://www.nhs.uk/conditions/iron-deficiency-anaemia/",
+        "https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/",
+        "https://www.nhs.uk/pregnancy/keeping-well/have-a-healthy-diet/",
     ],
     "who": [
         "https://www.who.int/news-room/fact-sheets/detail/healthy-diet",
@@ -49,6 +62,8 @@ SOURCES = {
         "https://www.who.int/news-room/fact-sheets/detail/diabetes",
         "https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)",
         "https://www.who.int/news-room/fact-sheets/detail/salt-reduction",
+        "https://www.who.int/news-room/fact-sheets/detail/hypertension",
+        "https://www.who.int/news-room/fact-sheets/detail/anaemia",
     ],
     # ZOE can't be scraped (Cloudflare). Add excerpts under data/docs/zoe/*.md.
     "zoe": [],

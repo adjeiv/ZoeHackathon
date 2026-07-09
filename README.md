@@ -1,7 +1,8 @@
 # 🩺 Health Claim Checker
 
-Transcribe spoken audio (live mic, uploaded file, or a YouTube/TikTok URL),
-extract the health/nutrition **claims** it makes, and check each one against a
+Take health content as spoken audio (live mic, uploaded file, or a
+YouTube/TikTok URL), a pasted transcript, or a **screenshot** (OCR'd with Claude
+vision), extract the health/nutrition **claims** it makes, and check each against a
 local **RAG** index of trusted sources (**NHS · WHO · ZOE**) — with a
 Supported / Contradicted / Not addressed verdict and citations.
 
@@ -84,3 +85,15 @@ To confirm what got indexed, run `uv run python ingest.py` and read the per-URL
   (`base` → `small`/`medium`). Bigger embeddings: `EMBED_MODEL` → `bge-base`.
 - Verdicts reflect **only the indexed excerpts**, which may be incomplete —
   this is an informational tool, **not medical advice**.
+
+## Running the App
+
+1. Backend (FastAPI):
+uv run uvicorn backend.api:app --reload --port 8000
+
+2. Frontend (Vite) — new tab:
+cd frontend && npm run dev
+
+3. ngrok tunnel — new tab:
+ngrok http 5173
+
