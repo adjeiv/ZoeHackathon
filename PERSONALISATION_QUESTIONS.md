@@ -49,7 +49,7 @@ https://www.bda.uk.com/resource/polycystic-ovary-syndrome-pcos-diet.html
 General diet and food and health (BDA)
 https://www.bda.uk.com/food-health.html
 
-Asoosciation for Nutrition (AfN) 
+Association for Nutrition (AfN) 
 Search the register and check if someone is a registered nutritionist 
 https://www.associationfornutrition.org/register/search-the-register
 
