@@ -5,6 +5,27 @@ Dietary pattern
 Health conditions
 Allergies & intolerances
 
+"How is your energy during the day?"
+[ ] Stable & steady
+[ ] Afternoon crashes
+[ ] Constant rollercoaster
+[ ] Always exhausted
+"What is your current eating style?"
+[ ] 3 balanced meals
+[ ] Low-carb / Keto
+[ ] Intermittent fasting
+[ ] No specific routine
+"How do you move your body?"
+[ ] Walks, yoga, or pilates
+[ ] Weightlifting or strength
+[ ] High-intensity / HIIT
+[ ] Little to no exercise
+"How do you sleep?"
+[ ] Great — wake up refreshed
+[ ] Poor — toss and turn
+[ ] Wired — mind races at night
+[ ] Long sleep, but still tired
+
 # Trusted Sources
 
 NHS
