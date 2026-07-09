@@ -37,8 +37,7 @@ function Faq({ faq }) {
 // a short list of trusted sources to read next, and the follow-up questions
 // people ask about PCOS.
 export default function Suggestions({ result, onBack, onDone }) {
-  const { summary, sources = [], faqs = [] } = result || {};
-  const topSources = sources.slice(0, 4);
+  const { summary, faqs = [] } = result || {};
 
   return (
     <div className="screen fade-up">
@@ -56,31 +55,9 @@ export default function Suggestions({ result, onBack, onDone }) {
           </div>
         )}
 
-        {topSources.length > 0 && (
-          <div className="card card--coral sources-card">
-            <div className="sources-title">Sources to look at</div>
-            <div className="source-list">
-              {topSources.map((s, i) => {
-                const Row = s.url ? 'a' : 'div';
-                const props = s.url ? { href: s.url, target: '_blank', rel: 'noreferrer' } : {};
-                return (
-                  <Row className="source-row" key={i} {...props}>
-                    <SourceIcon source={s.source} emoji={s.icon} />
-                    <div className="source-main">
-                      <div className="source-name">{s.name}</div>
-                      <div className="source-note">{s.note}</div>
-                    </div>
-                    <span className="source-tag">{s.tag}</span>
-                  </Row>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
         {faqs.length > 0 && (
           <>
-            <h2 className="section-title" style={{ marginTop: 24 }}>FAQs about PCOS</h2>
+            <h2 className="section-title" style={{ marginTop: 24 }}>FAQs about the claim</h2>
             <div className="faq-list">
               {faqs.map((f, i) => (
                 <Faq faq={f} key={i} />

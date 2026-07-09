@@ -43,7 +43,7 @@ STATUS_META = {
     "Supported": {"tag": "SUPPORTED", "verdict": "Backed by science",
                   "color": "#1E9E5A", "truth": 85},
     "Contradicted": {"tag": "MYTH", "verdict": "Mostly a myth",
-                     "color": "#DB2A87", "truth": 16},
+                     "color": "#E23744", "truth": 16},
     "Unclear": {"tag": "NEEDS CONTEXT", "verdict": "Needs context",
                 "color": "#E0A33B", "truth": 50},
     "Not addressed": {"tag": "UNVERIFIED", "verdict": "Not enough evidence",

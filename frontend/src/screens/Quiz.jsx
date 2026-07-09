@@ -17,18 +17,29 @@ const QUESTIONS = [
     key: 'diet',
     label: 'How do you eat day to day?',
     options: [
-      { label: 'Pretty balanced', value: 'Balanced' },
-      { label: 'Plant-based', value: 'Plant-based' },
-      { label: 'Lower-carb', value: 'Low-carb' },
+      { label: '3 balanced meals', value: 'Balanced' },
+      { label: 'Low-carb / Keto', value: 'Low-carb' },
+      { label: 'Intermittent fasting', value: 'Intermittent' },
     ],
   },
   {
-    key: 'goal',
-    label: 'What brings you to Paloma?',
+    key: 'exercise',
+    label: 'How much do you move your body? Select the primary method.',
     options: [
-      { label: 'Manage my symptoms', value: 'Manage PCOS symptoms' },
-      { label: 'Learn what’s actually true', value: 'Understand my body' },
-      { label: 'General wellbeing', value: 'General wellbeing' },
+      { label: 'Walks, yoga or pilates', value: 'Walk-or-yoga' },
+      { label: 'Weightlifting or strength', value: 'Strength' },
+      { label: 'High-intensity/HIIT', value: 'High-intensity' },
+      { label: 'Little to no exercise', value: 'Little' },
+    ],
+  },
+  {
+    key: 'sleep',
+    label: 'How do you sleep?',
+    options: [
+      { label: 'Great - wake up refreshed', value: 'Great sleep' },
+      { label: 'Poor - toss and turn', value: 'Poor sleep' },
+      { label: 'Wired - mind races at night', value: 'Wired sleep' },
+      { label: 'Long sleep, but still tired', value: 'Long but tired' },
     ],
   },
 ];

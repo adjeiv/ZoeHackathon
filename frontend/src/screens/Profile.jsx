@@ -99,16 +99,7 @@ export default function Profile({ person, onBack, onSave }) {
               placeholder="e.g. 34"
             />
           </div>
-
-          <div>
-            <div className="field-label">Biological sex</div>
-            <div className="chip-group">
-              {SEX.map((o) => (
-                <Chip key={o} label={o} selected={form.sex === o} onClick={() => set('sex', o)} />
-              ))}
-            </div>
-          </div>
-
+          
           <div>
             <div className="field-label">Dietary pattern</div>
             <div className="chip-group">

@@ -156,19 +156,6 @@ export default function Input({ onCheck, onBack }) {
             </div>
           </div>
 
-          <div>
-            <button className="link-toggle" onClick={() => setShowLink((v) => !v)}>
-              <span>{showLink ? '▾' : '›'}</span> 🔗 or check a video link
-            </button>
-            {showLink && (
-              <input
-                className="field link-input"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="Paste a TikTok, Reels or YouTube link…"
-              />
-            )}
-          </div>
         </div>
 
         <button className="primary-btn primary-btn--block input-submit" onClick={submit}>

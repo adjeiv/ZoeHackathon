@@ -67,7 +67,7 @@ export default function Home({
           onClick={onStartCheck}
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onStartCheck()}
         >
-          <Mascot className="cta-mascot" width={88} alt="" />
+          <Mascot className="cta-mascot" width={88} alt="" src="/mascot/circle-mascot.png" />
           <div className="cta-text">
             <div className="cta-eyebrow">Ready when you are</div>
             <div className="cta-title">Hear something new today?</div>
@@ -123,6 +123,24 @@ export default function Home({
             </a>
           ))}
         </div>
+
+        <h2 className="section-title" style={{ marginTop: 30 }}>How you can help</h2>
+        <a
+          className="contribute-card"
+          style={{ marginTop: 0 }}
+          href="https://www.verity-pcos.org.uk/participate-in-research.html"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span className="contribute-emoji">🔬</span>
+          <div className="contribute-text">
+            <div className="contribute-title">Contribute to research</div>
+            <div className="contribute-sub">
+              Help science understand PCOS better — take part in studies via Verity.
+            </div>
+          </div>
+          <span className="contribute-arrow">↗</span>
+        </a>
       </div>
     </div>
   );

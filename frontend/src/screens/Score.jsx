@@ -155,7 +155,7 @@ export default function Score({ result, error, onSuggestions, onCheckAnother, on
           <button className="secondary-btn" onClick={onCheckAnother}>Check another</button>
           <button className="primary-btn" onClick={onSuggestions}>See suggestions →</button>
         </div>
-        <p className="fine-print">Zoe is an educational tool, not medical advice.</p>
+        <p className="fine-print">Paloma is an educational tool, not medical advice.</p>
       </div>
     </div>
   );

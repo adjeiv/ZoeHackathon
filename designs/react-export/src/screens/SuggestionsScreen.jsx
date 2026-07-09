@@ -10,7 +10,7 @@ export default function SuggestionsScreen({ onNext }) {
       <div className="card card--lavender" style={{ height: 130, marginBottom: 24 }}>
         <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-ink)' }}>Advice Summary</div>
       </div>
-      <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-ink)', textAlign: 'center', marginBottom: 16 }}>FAQs about PMOS</h2>
+      <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-ink)', textAlign: 'center', marginBottom: 16 }}>FAQs about the claim</h2>
       {FAQS.map((faq, i) => (
         <div key={i} style={{ background: 'var(--color-coral)', borderRadius: 20, padding: 14, textAlign: 'center', color: '#fff', fontSize: 15, marginBottom: 12 }}>{faq}</div>
       ))}
