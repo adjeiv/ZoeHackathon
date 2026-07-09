@@ -3,8 +3,10 @@
 
 const PERSON_KEY = 'zoecheck.person';
 const HISTORY_KEY = 'zoecheck.history';
+const ONBOARDED_KEY = 'zoecheck.onboarded';
 
 export const DEFAULT_PERSON = {
+  name: '',
   age: '',
   sex: '',
   activity: '',
@@ -13,6 +15,25 @@ export const DEFAULT_PERSON = {
   allergies: '',
   goal: '',
 };
+
+// Onboarding (Name → Quiz) runs once; the flag lets returning users land
+// straight on the Home dashboard.
+export function loadOnboarded() {
+  try {
+    return localStorage.getItem(ONBOARDED_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function saveOnboarded(done = true) {
+  try {
+    if (done) localStorage.setItem(ONBOARDED_KEY, '1');
+    else localStorage.removeItem(ONBOARDED_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 export function loadPerson() {
   try {

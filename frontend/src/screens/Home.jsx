@@ -1,182 +1,128 @@
-import { useEffect, useRef, useState } from 'react';
 import Mascot from '../components/Mascot.jsx';
 
-const TRUST = ['Peer-reviewed sources', 'Nothing is stored', 'Not medical advice'];
-const ACCEPT = '.mp3,.wav,.m4a,.mp4,.webm,.ogg,.flac,.png,.jpg,.jpeg,.webp,audio/*,video/*,image/*';
+// Curated PCOS reading, drawn from the app's trusted-source list. Tapping one
+// opens the source in a new tab.
+const HIGHLIGHTS = [
+  {
+    tag: 'NHS',
+    title: 'PCOS: symptoms, causes & how it’s diagnosed',
+    href: 'https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/',
+    variant: 'card--lavender',
+  },
+  {
+    tag: 'ZOE',
+    title: 'How the food you eat shapes insulin & PCOS',
+    href: 'https://zoe.com/learn',
+    variant: 'card--coral',
+  },
+  {
+    tag: 'Verity',
+    title: 'Support & community for living with PCOS',
+    href: 'https://www.verity-pcos.org.uk/',
+    variant: 'card--lavender',
+  },
+];
 
-function fmt(n) {
-  return `${String(Math.floor(n / 60)).padStart(2, '0')}:${String(n % 60).padStart(2, '0')}`;
-}
+const VERDICT_COLOR = {
+  MYTH: 'var(--myth)',
+  'NEEDS CONTEXT': 'var(--context)',
+  UNVERIFIED: 'var(--context)',
+  SUPPORTED: 'var(--true)',
+};
 
-// 26-bar waveform; bars animate (scaleY) only while recording.
-function Waveform({ recording }) {
-  const bars = Array.from({ length: 26 }, (_, i) => ({
-    h: recording ? 8 + Math.round(18 * Math.abs(Math.sin(i * 1.3))) : 4,
-    d: `${(i * 0.05).toFixed(2)}s`,
-  }));
-  return (
-    <div className="waveform">
-      {bars.map((b, i) => (
-        <span
-          key={i}
-          className="wave-bar"
-          style={{
-            height: b.h,
-            background: recording ? '#fff' : 'rgba(255,255,255,0.35)',
-            animationDelay: b.d,
-            animationPlayState: recording ? 'running' : 'paused',
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-export default function Home({ onCheck }) {
-  const [text, setText] = useState('');
-  const [recording, setRecording] = useState(false);
-  const [seconds, setSeconds] = useState(0);
-  const [recordedFile, setRecordedFile] = useState(null);
-  const [file, setFile] = useState(null);
-  const [showLink, setShowLink] = useState(false);
-  const [url, setUrl] = useState('');
-  const [warn, setWarn] = useState('');
-
-  const recorderRef = useRef(null);
-  const chunksRef = useRef([]);
-  const timerRef = useRef(null);
-  const fileInputRef = useRef(null);
-
-  useEffect(() => () => clearInterval(timerRef.current), []);
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const rec = new MediaRecorder(stream);
-      chunksRef.current = [];
-      rec.ondataavailable = (e) => e.data.size && chunksRef.current.push(e.data);
-      rec.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        setRecordedFile(new File([blob], 'recording.webm', { type: 'audio/webm' }));
-        stream.getTracks().forEach((t) => t.stop());
-      };
-      rec.start();
-      recorderRef.current = rec;
-      setRecordedFile(null);
-      setSeconds(0);
-      setRecording(true);
-      timerRef.current = setInterval(() => setSeconds((s) => s + 1), 1000);
-    } catch {
-      setWarn('Microphone access was blocked. Try typing or uploading instead.');
-    }
-  };
-
-  const stopRecording = () => {
-    clearInterval(timerRef.current);
-    setRecording(false);
-    recorderRef.current?.stop();
-  };
-
-  const toggleRec = () => (recording ? stopRecording() : startRecording());
-
-  const submit = () => {
-    setWarn('');
-    if (text.trim()) return onCheck({ text: text.trim() });
-    if (recordedFile) return onCheck({ file: recordedFile });
-    if (file) return onCheck({ file });
-    if (url.trim()) return onCheck({ url: url.trim() });
-    setWarn('Paste a claim, record, upload, or add a link first.');
-  };
+export default function Home({
+  person,
+  history,
+  onStartCheck,
+  onOpenHistoryItem,
+  onViewHistory,
+  onEditProfile,
+}) {
+  const name = person?.name?.trim();
+  const initial = (name || 'Z').charAt(0).toUpperCase();
+  const recent = history.slice(0, 3);
 
   return (
-    <div>
-      <div className="hero-mascot">
-        <Mascot bob />
+    <div className="screen fade-up">
+      <div className="home-header">
+        <div className="home-header-inner">
+          <div className="profile-row">
+            <div className="avatar">{initial}</div>
+            <div>
+              <div className="profile-hello">Welcome back</div>
+              <div className="profile-name">{name || 'Friend'}</div>
+            </div>
+          </div>
+          <button className="icon-btn" aria-label="Edit profile" onClick={onEditProfile}>
+            ⚙
+          </button>
+        </div>
       </div>
-      <h1 className="headline">Hear some wild health claims?</h1>
-      <p className="subhead">Check it against real, peer-reviewed science — in seconds.</p>
 
-      <div className="input-stack">
-        <div>
-          <div className="section-label">PASTE IT HERE</div>
-          <textarea
-            className="claim-input"
-            rows={1}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="e.g. Eating after 8pm makes you gain weight…"
-          />
+      <div className="home-body">
+        <div
+          className="card--coral cta-card"
+          role="button"
+          tabIndex={0}
+          onClick={onStartCheck}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onStartCheck()}
+        >
+          <Mascot className="cta-mascot" width={88} alt="" />
+          <div className="cta-text">
+            <div className="cta-eyebrow">Ready when you are</div>
+            <div className="cta-title">Hear something new today?</div>
+            <div className="cta-sub">Check a health claim against real science</div>
+            <span className="cta-go">Check a claim →</span>
+          </div>
         </div>
 
-        <div>
-          <div className="section-label">OR TAP TO RECORD</div>
-          <div className="rec-bar">
-            <button
-              className={`mic-btn${recording ? ' recording' : ''}`}
-              onClick={toggleRec}
-              aria-label={recording ? 'Stop recording' : 'Start recording'}
-            >
-              🎙
-            </button>
-            <Waveform recording={recording} />
-            <span className="timer">{fmt(seconds)}</span>
+        <div className="card card--coral saved-card">
+          <div className="saved-head">
+            <div className="saved-title">Saved history</div>
+            {history.length > 0 && (
+              <button className="saved-all" onClick={onViewHistory}>
+                See all
+              </button>
+            )}
           </div>
-          {recordedFile && !recording && (
-            <div className="field-hint" style={{ margin: '8px 0 0 4px' }}>
-              ✓ Recording ready · {fmt(seconds)}
+          {recent.length === 0 ? (
+            <p className="saved-empty">
+              Nothing yet — your checked claims will be saved here on this device.
+            </p>
+          ) : (
+            <div className="saved-list">
+              {recent.map((h) => (
+                <button className="saved-row" key={h.id} onClick={() => onOpenHistoryItem(h)}>
+                  <span
+                    className="saved-dot"
+                    style={{ background: VERDICT_COLOR[h.tag] || '#fff' }}
+                  />
+                  <span className="saved-claim">{h.claim}</span>
+                  <span className="saved-chevron">›</span>
+                </button>
+              ))}
             </div>
           )}
         </div>
 
-        <div>
-          <div className="section-label">OR UPLOAD A PHOTO OR VIDEO</div>
-          <div className="upload-box">
-            <button className="upload-btn" onClick={() => fileInputRef.current?.click()}>
-              ↑ Upload
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept={ACCEPT}
-              style={{ display: 'none' }}
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-            />
-            {file ? (
-              <span className="file-chosen">{file.name}</span>
-            ) : (
-              <span className="upload-help">
-                Drop a screenshot or clip — MP3, WAV, M4A, MP4, PNG. Up to 200MB.
-              </span>
-            )}
-          </div>
+        <h2 className="section-title">Highlights for you today</h2>
+        <div className="highlight-list">
+          {HIGHLIGHTS.map((h) => (
+            <a
+              key={h.title}
+              className={`card ${h.variant} highlight`}
+              href={h.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div>
+                <div className="highlight-tag">{h.tag}</div>
+                <div className="highlight-title">{h.title}</div>
+              </div>
+              <div className="highlight-cta">Read more →</div>
+            </a>
+          ))}
         </div>
-
-        <div>
-          <button className="link-toggle" onClick={() => setShowLink((v) => !v)}>
-            <span>›</span> 🔗 or check a video link
-          </button>
-          {showLink && (
-            <input
-              className="link-input"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="Paste a TikTok, Reels or YouTube link…"
-            />
-          )}
-        </div>
-      </div>
-
-      <button className="primary-btn home-check" onClick={submit}>
-        Check the claim ✨
-      </button>
-      {warn && <p className="warn">{warn}</p>}
-
-      <div className="trust-row">
-        {TRUST.map((t) => (
-          <div className="trust-pill" key={t}>
-            <span className="check">✓</span> {t}
-          </div>
-        ))}
       </div>
     </div>
   );

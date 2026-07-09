@@ -1,12 +1,10 @@
-// Two-frame "gif" for the loading state: cross-cuts between pink_mascot_start
-// and pink_mascot_end. The frames are stacked and their opacity alternates,
-// while the whole thing gently bobs.
-export default function LoadingMascot({ width = 180 }) {
-  const height = Math.round((width * 701) / 986); // preserve the 986×701 ratio
+// Loading animation: cross-cuts the walking frame and the standing frame so the
+// coral mascot looks like it's trotting along while results are fetched.
+export default function LoadingMascot() {
   return (
-    <div className="loading-mascot bob" style={{ width, height }}>
-      <img className="frame frame-a" src="/mascot/pink_mascot_start.png" alt="Loading" />
-      <img className="frame frame-b" src="/mascot/pink_mascot_end.png" alt="" aria-hidden="true" />
+    <div className="loading-mascot">
+      <img className="loading-frame walk" src="/mascot/mascot-walk.png" alt="Loading" />
+      <img className="loading-frame stand" src="/mascot/mascot.png" alt="" aria-hidden="true" />
     </div>
   );
 }

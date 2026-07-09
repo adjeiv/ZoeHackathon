@@ -1,11 +1,10 @@
-// The ZoeCheck brand mascot (Home screen). `bob` gives it a gentle vertical
-// bobbing animation.
-export default function Mascot({ bob = false, width = 180 }) {
+// The Zoe coral "Z" mascot. `className` lets each screen size/position it.
+export default function Mascot({ width = 158, className = '', alt = 'Zoe' }) {
   return (
     <img
-      className={`mascot-img${bob ? ' bob' : ''}`}
-      src="/mascot/pink_mascot.png"
-      alt="ZoeCheck mascot"
+      className={className}
+      src="/mascot/mascot.png"
+      alt={alt}
       style={{ width }}
     />
   );
