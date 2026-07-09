@@ -4,7 +4,7 @@ export default function LoadingMascot() {
   return (
     <div className="loading-mascot">
       <img className="loading-frame walk" src="/mascot/mascot-walk.png" alt="Loading" />
-      <img className="loading-frame stand" src="/mascot/mascot.png" alt="" aria-hidden="true" />
+      <img className="loading-frame stand" src="/mascot/mascot-walk-2.png" alt="" aria-hidden="true" />
     </div>
   );
 }

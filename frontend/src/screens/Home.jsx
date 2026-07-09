@@ -20,7 +20,7 @@ const HIGHLIGHTS = [
   {
     tag: 'Verity',
     title: 'Support & community for living with PMOS',
-    summary: 'The UK charity for PMOS — real stories, support groups and evidence-based guidance.',
+    summary: 'The UK charity for PMOS, with real stories, support groups and evidence-based guidance.',
     href: 'https://www.verity-pcos.org.uk/',
     variant: 'card--lavender',
   },
