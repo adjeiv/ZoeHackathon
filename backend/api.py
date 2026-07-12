@@ -59,6 +59,7 @@ SOURCE_META = {
     "zoe": {"name": "ZOE", "tag": "SCIENCE-BACKED", "icon": "🔬"},
     "johns_hopkins": {"name": "Johns Hopkins", "tag": "INSTITUTIONAL", "icon": "🏛"},
     "x": {"name": "Social post", "tag": "SOCIAL", "icon": "📱"},
+    "papers": {"name": "Peer-reviewed research", "tag": "RESEARCH", "icon": "🔬"},
 }
 DEFAULT_SOURCE = {"name": "", "tag": "REFERENCE", "icon": "📄"}
 

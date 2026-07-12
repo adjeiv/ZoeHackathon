@@ -37,8 +37,20 @@ export async function checkClaim(input, person) {
   const profile = profileFromPerson(person);
   if (profile) form.append('profile', profile);
 
-  const res = await fetch('/api/check', { method: 'POST', body: form });
+  // The `ngrok-skip-browser-warning` header stops ngrok's free tier from
+  // returning its HTML interstitial instead of the JSON response (Vercel
+  // forwards this header through its /api rewrite to the tunnel).
+  const res = await fetch('/api/check', {
+    method: 'POST',
+    body: form,
+    headers: { 'ngrok-skip-browser-warning': 'true' },
+  });
   if (!res.ok) throw new Error(`Server error (${res.status})`);
+  const ct = res.headers.get('content-type') || '';
+  if (!ct.includes('application/json')) {
+    // Almost always the tunnel is down or pointing at a stale ngrok URL.
+    throw new Error('Backend unreachable — the API tunnel may be down or the deployed URL is stale.');
+  }
   const data = await res.json();
   if (data.error) throw new Error(data.error);
   return data;
